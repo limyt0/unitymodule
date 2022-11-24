@@ -6,4 +6,4 @@
 
 3. panel
 
-4. handle? event?
+4. handle? event? callback delegate?
