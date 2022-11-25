@@ -9,3 +9,5 @@
 4. handle? event? callback delegate?
 
 5.catmullrom 
+
+standard decal
