@@ -11,3 +11,7 @@
 5.catmullrom 
 
 standard decal
+
+
+
+Gamemanager Scene전환, instance 
