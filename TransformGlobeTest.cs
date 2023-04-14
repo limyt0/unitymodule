@@ -10,6 +10,11 @@ public class TransformGlobeTest : MonoBehaviour
     public float moveSpeed = 4f;
     int layerMask;
     public float maxDegreesPerSecond = 90f;
+
+    private Vector3 prevPos;
+    private Quaternion prevQua;
+    private int saveInt = 0;
+
     void Start()
     {
         if (_globe == null) _globe = GameObject.Find("Globe");
@@ -24,9 +29,25 @@ public class TransformGlobeTest : MonoBehaviour
 
     void Update()
     {
+
         GoBackMoving();
         LRMoving();
         NormalCheck();
+        FramedataSave();
+    }
+
+    //이전 프레임 데이터 저장
+    private void FramedataSave()
+    {
+        /*saveInt += 1;
+        if (prevPos == Vector3.zero) prevPos = transform.position;
+        if (prevQua == Quaternion.identity) prevQua = transform.rotation;
+        if (saveInt % 2 == 0) {
+            prevPos = transform.position;
+            prevQua = transform.rotation;
+        }*/
+        prevPos = transform.position;
+        prevQua = transform.rotation;
     }
 
     private void GoBackMoving()
@@ -39,63 +60,56 @@ public class TransformGlobeTest : MonoBehaviour
 
     private void NormalCheck()
     {
-        if (moveDir.y != 0) {
-            Debug.Log("각도0:" + VectorAngles(transform.forward, _globe.transform.position - transform.position));
+        if (moveDir.y != 0)
+        {
             var defaultPos = transform.position;
             var defaultQua = transform.rotation;
 
             var dir = _globe.transform.position - Camera.main.transform.position;
-            //_globe.transform.position - transform.position;
+
             var origin = transform.position + dir.normalized * (-100f);
-            //nG.transform.position = new Vector3(newPos.x, newPos.y, (float)(newPos.z - ChangeM(maxMeter)));
-            //if (Physics.Raycast(nG.transform.position, zeroPoint - Camera.main.transform.position, out RaycastHit hit))
+
             if (Physics.Raycast(origin, dir, out RaycastHit hit, float.PositiveInfinity, layerMask))
             {
                 if (hit.normal != transform.up)
-                {   
+                {
                     transform.rotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-                       
                     transform.position = hit.point;
                 }
-                /*if (hit.normal != transform.up)
-                {
-                    Quaternion currentRotation = transform.rotation;
-                    Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
-
-                    float maxDegreesDelta = maxDegreesPerSecond * Time.deltaTime;
-                    transform.rotation = Quaternion.RotateTowards(currentRotation, targetRotation, maxDegreesDelta);
-
-                    transform.position = hit.point;
-                }*/
-               
             }
-            float ang = VectorAngles(transform.forward, _globe.transform.position - transform.position);
 
-/*
-            float distDefault = Vector3.Distance(defaultPos, _globe.transform.position);
-            float distAfter = Vector3.Distance(transform.position, _globe.transform.position);
+            //방향에 따라 vector 부호 바뀌게 함.
+            int signs = (moveDir.y > 0) ? 1 : -1;
 
-            bool isCanMoving = true;
-            if (distDefault >= distAfter) {//높은곳에서 낮은곳으로는 떨어져도 됨.
-                isCanMoving = true;
-            } else if(distAfter > transform.lossyScale.y) {
-                isCanMoving = false;
-             //높은곳 올라갈 때 자기보다 큰 곳 못 올라가야함.
-            }
-                */
-
-
-            if ( ang < 45 || ang > 135) 
+            if (Physics.Raycast(transform.position, transform.forward * signs, out RaycastHit hit2, transform.lossyScale.y))
             {
-                Debug.Log("각도1: " + ang);
-                transform.position = defaultPos;
-                transform.rotation = defaultQua;
-                Debug.Log("각도3:" + VectorAngles(transform.forward, _globe.transform.position - transform.position));
+                //옆면의 평면에 hit normal을 정사영 시켜야함. 안 그러면 옆으로 튕겨나간 각도로 계산됨.
+                Vector3 hitProj = VectorProjection(_globe.transform.position - transform.position, transform.forward * signs, hit2.normal);
+
+                float ang = 90 - VectorAngles(transform.forward * signs, hitProj);
+                ang = Mathf.Abs(ang);
+                Debug.DrawRay(transform.position, transform.forward * signs, Color.green, 3f);
+                Debug.DrawRay(hit2.point, hitProj, Color.red, 3f);
+                Debug.DrawRay(hit2.point, hit2.normal, Color.yellow, 3f);
+
+                if (ang > 75)
+                {
+                    if (prevPos == Vector3.zero && prevQua == Quaternion.identity)
+                    {
+                        transform.position = defaultPos;
+                        transform.rotation = defaultQua;
+                    }
+                    else
+                    {
+                        transform.position = prevPos;
+                        transform.rotation = prevQua;
+                    }
+
+                }
             }
-            else {
-                Debug.Log("각도2: " + ang);
-            }
-            
+
+
+
         }
     }
 
@@ -104,6 +118,17 @@ public class TransformGlobeTest : MonoBehaviour
         float dot = Vector3.Dot(v1.normalized, v2.normalized);
         float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
         return angle;
+    }
+
+    //v1, v2로 span한 평면에 대한 v3의 정사영 벡터
+    private Vector3 VectorProjection(Vector3 v1, Vector3 v2, Vector3 v3)
+    {
+        Vector3 normal = Vector3.Cross(v1, v2).normalized;  // 평면의 법선 벡터 계산
+        Vector3 pointOnPlane = v1;  // 평면상의 임의의 점 선택
+        Vector3 toPoint = v3 - pointOnPlane;  // 점 v3와 임의의 점을 지나는 직선을 연장한 점 P 계산
+        float distance = Vector3.Dot(toPoint, normal);  // P와 평면 사이의 거리 계산
+        Vector3 projectedVector = v3 - distance * normal;  // v3의 정사영된 벡터값인 v4 계산
+        return projectedVector;
     }
 
     private void LRMoving()
