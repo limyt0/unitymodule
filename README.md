@@ -15,3 +15,6 @@ standard decal
 
 
 Gamemanager Scene전환, instance 
+
+
+따라가는 UI가 화면 벗어나면 1번만 호출되게?(setactive를 한번씩만??)_
