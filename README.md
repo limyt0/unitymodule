@@ -22,6 +22,7 @@ Gamemanager Scene전환, instance
 
 라그랑주 보간
 
+```cs
 public static double LagrangeInterpolation(double[] x, double[] y, double xi)
 {
     double result = 0;
@@ -39,3 +40,4 @@ public static double LagrangeInterpolation(double[] x, double[] y, double xi)
     }
     return result;
 }
+```
