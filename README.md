@@ -61,3 +61,5 @@ double[] yi = spline.Interpolate(xi);
 // Print interpolated values
 Console.WriteLine(string.Join(", ", yi));  // Output: 1.45, 4.05
 ```
+
+메모리상으론 catmullrom이 더 좋은듯..?
