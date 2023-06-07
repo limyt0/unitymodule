@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using UnityEngine;
 // 다각형을 이루는 지 체크하는 class
 //꼭지점 이외에 겹치는 부분이 있으면 다각형을 이루지 않음
 
