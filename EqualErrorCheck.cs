@@ -4,8 +4,12 @@ objA나 objB가 null일 경우에 error가 발생함.
 하나가 null이고 나머지 하나는 값이 있을때 false,
 둘다 null일때 true로 나오게 하기 위한 코드*/
 
-public class EqualErrorCheck{
+public class EqualErrorCheck : MonoBehaviour{
+  void Update(){
+    Test();
+  }
   void Test(){
+    bool isSameValue = false;
     if (objA == null && objB == null)
     {
         return true; // 둘 다 null인 경우
@@ -18,7 +22,16 @@ public class EqualErrorCheck{
     {
         return objA.Equals(objB); // 둘 다 값이 있는 경우
     }
+    //이전하고 값이 바뀔때만 호출
+    if (!isSameValue) Changes();    
+                
+  }
+
+  //Update문 안에 있지만 값이 바뀔때만 한번씩 호출됨!!
+  void Changes(){
     
   }
+
+  
   
 }
