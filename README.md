@@ -63,3 +63,10 @@ Console.WriteLine(string.Join(", ", yi));  // Output: 1.45, 4.05
 ```
 
 메모리상으론 catmullrom이 더 좋은듯..?
+
+
+//구체 위에 생성하는 방법: 다른 방법 찾아봐야 할 듯...
+var dir = transform.position - sphere.transform.position; 
+var q = Quaternion.LookRotation(dir, Vector3.up);
+transform.rotation = q;
+transform.Rotate(new Vector3(-90, 0, 180));
