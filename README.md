@@ -12,7 +12,7 @@
 
 standard decal
 
-
+6. ray 원하는 위치 연습
 
 Gamemanager Scene전환, instance 
 
