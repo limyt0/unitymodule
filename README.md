@@ -16,6 +16,8 @@ standard decal
 
 7. textproMesh 연습
 
+8. linerender or projector or decal로 다각형 그리기
+
 Gamemanager Scene전환, instance 
 
 
