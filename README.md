@@ -18,6 +18,8 @@ standard decal
 
 8. linerender or projector or decal로 다각형 그리기
 
+9. 페이징
+
 Gamemanager Scene전환, instance 
 
 
