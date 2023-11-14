@@ -20,6 +20,13 @@ standard decal
 
 9. 페이징
 
+10. List<Vector3> pathlist; =>경로 리스트
+nowpos 현재 위치 정보 실시간으로 계속 삽입.( 데이터 간격 마음대로 조절 가능)
+float dataterm = 0.1f => 값 바꾸면 데이터 간격 마음대로 조절 가능.
+경로위를 따라 가장 가까운 곳에 가도록 계산하는 방법?
+
+11. 등등
+
 Gamemanager Scene전환, instance 
 
 
