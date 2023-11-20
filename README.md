@@ -16,7 +16,7 @@ standard decal
 
 7. textproMesh 연습
 
-8. linerender or projector or decal로 다각형 그리기
+8. linerender or projector or decal로 다각형 그리기+UI에서도 그려보기
 
 9. 페이징
 
@@ -27,7 +27,7 @@ float dataterm = 0.1f => 값 바꾸면 데이터 간격 마음대로 조절 가�
 
 11. file 불러오기, 쓰기 json 불러오기 쓰기 등등
 
-11. 등등
+12. 등등
 
 Gamemanager Scene전환, instance 
 
