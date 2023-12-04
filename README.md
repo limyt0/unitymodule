@@ -27,7 +27,9 @@ float dataterm = 0.1f => 값 바꾸면 데이터 간격 마음대로 조절 가�
 
 11. file 불러오기, 쓰기 json 불러오기 쓰기 등등
 
-12. 등등
+12. sub camera texture로 화면 회전
+
+13. 등등
 
 Gamemanager Scene전환, instance 
 
