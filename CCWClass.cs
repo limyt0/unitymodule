@@ -1,5 +1,5 @@
 //유티니에서 시계/반시계 체크하는 예시
-//인터넷 예제들 보면 다 xz 평면에서만 체크하는데 모든 면 다 체크해줘야 하는 듯.
+//xz 뿐만 아니라 모든 면 다 체크해줘야 함.
 public class CCWClass : MonoBehaviour
 {
     private bool CCW(Vector3 p1, Vector3 p2, Vector3 p3)
